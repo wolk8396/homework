@@ -65,5 +65,4 @@ bet_keyboard.forEach(itemBtn => {
     }
   })
 });
-
 reset();
