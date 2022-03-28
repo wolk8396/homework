@@ -1,7 +1,7 @@
 const input_to = document.querySelector('.to');
 const input_from = document.querySelector('.from');
 const btnCheck = document.querySelector('.findList');
-const containerList = document.querySelector('.container-list')
+const containerList = document.querySelector('.container-list');
 
 const createTodos = () => {
   const start = +input_from.value;
@@ -10,8 +10,8 @@ const createTodos = () => {
   for (let i = start; i < end; i++) {
     fetch('https://jsonplaceholder.typicode.com/todos/'+ i)
       .then(response => response.json())
-      .then(result => { 
-       render(result)
+      .then(result => {
+       render(result);
     });
   }
 }
@@ -26,10 +26,10 @@ const render = result => {
   btn.className ='remove_elements';
   div.append(p, btn);
   containerList.append(div);
-  btn.innerHTML = 'X'
+  btn.innerHTML = 'X';
   p.innerHTML = Object.values(result);
 
   btn.onclick = () => div.remove();
 }
 
-btnCheck.onclick = () =>  createTodos();
+btnCheck.onclick = () => createTodos();
