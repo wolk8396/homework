@@ -118,7 +118,6 @@ function joinArrayTogether () {
   empty.forEach(element => {
     const joinArray = selector.map((item, i) => ({...item, ...empty[i]}));
     renderTodos = joinArray;
-    console.log('render',renderTodos);
   });
 };
 
