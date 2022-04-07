@@ -94,18 +94,15 @@ let renderTodos = [];
 
 const findValidated = () => {
   const someItem = BUSINESS_ENTITY_STATUSES.filter(item => item.validated ===  getInformation);
-  console.log(someItem, getInformation);
   const dateItem = Object.entries(someItem).map(([key, value]) => value.validated).join('');
 
   findUser(dateItem);
 };
 
 function findUser (dateItem) {
-  const dateFuckingUser = businessEntities.filter(item => item.status === dateItem);
-  console.log(dateItem, dateFuckingUser);
-  usersId = Object.entries(dateFuckingUser).map(([key, value]) => value.planId);
-  console.log('get id', usersId);
-  selector = dateFuckingUser;
+  const dateUser = businessEntities.filter(item => item.status === dateItem);
+  usersId = Object.entries(dateUser).map(([key, value]) => value.planId);
+  selector = dateUser;
 };
 
 function fundPayment () {
@@ -145,6 +142,7 @@ function render () {
 list.forEach(list => {
   list.onclick = event => {
     getInformation = event.target.textContent
+    renderTodos = [];
     empty = [];
     findUser();
     findValidated();
