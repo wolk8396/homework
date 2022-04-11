@@ -1,0 +1,12 @@
+.display {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  width: 768px;
+  height: 1000px;
+}
+
+button {
+  width: 28px;
+  height: 26px;
+}

@@ -95,7 +95,7 @@ let renderTodos = [];
 const findValidated = () => {
   const someItem = BUSINESS_ENTITY_STATUSES.filter(item => item.validated ===  getInformation);
   const dateItem = Object.entries(someItem).map(([key, value]) => value.validated).join('');
-
+  
   findUser(dateItem);
 };
 
@@ -103,24 +103,29 @@ function findUser (dateItem) {
   const dateUser = businessEntities.filter(item => item.status === dateItem);
   usersId = Object.entries(dateUser).map(([key, value]) => value.planId);
   selector = dateUser;
+  console.log(dateUser);
 };
 
 function fundPayment () {
   usersId.forEach(itemId => {
-    PAYMENT_PLANS.forEach(item =>  (item.id === itemId) ? empty.push(item) : []);
+    PAYMENT_PLANS.forEach((item, i) => (item.id === itemId) ? empty.push(item) : []);
   });
+ 
 };
 
 function joinArrayTogether () {
-  empty.forEach(element => {
+  empty.forEach((element, index) => {
     const joinArray = selector.map((item, i) => ({...item, ...empty[i]}));
     renderTodos = joinArray;
+    console.log(renderTodos, 'renderTodos');
   });
+
 };
 
 function render () {
 
   renderTodos.forEach(item => {
+    console.log(item);
     let tr = document.createElement('tr')
     let nameUser = document.createElement('td');
     let location = document.createElement('td');
@@ -133,9 +138,11 @@ function render () {
    
     nameUser.innerHTML= item.name;
     location.innerHTML = item.city;
-    planName.innerHTML = item.planName;
     id.innerHTML = item.id;
     status.innerHTML = item.status;
+    planName.innerHTML = item.planName;
+    
+   
   });
 };
 
