@@ -30,16 +30,14 @@ const count = math => {
   let some = math.split(string);
   let result = 0;
 
-  values1 = +some[0];
-  values2= +(some[1]);
-
   const operations = new Map([
-    ['+', values1 + values2],
-    ['-', values1 - values2],
-    ['*', values1 * values2],
-    ['/', values1 / values2],
+    ['+', ( values1,  values2) => values1 + values2],
+    ['-', ( values1,  values2) => values1 - values2],
+    ['*', ( values1,  values2) => values1 * values2],
+    ['/', ( values1,  values2) => values1 / values2],
   ]);
-  result = operations.get(string);
+
+  result = operations.get(string)(+some[0], +(some[1]));
 
   render(result);
 };
