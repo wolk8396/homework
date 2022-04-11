@@ -1,160 +1,71 @@
-const toDosTable = document.querySelector('.table');
-const list = document.querySelectorAll('.list');
+const input = document.querySelector('.input');
+const btn = document.querySelector('.btn');
+const resultOperations = document.querySelector('.result');
+const sign = new Map([
+  ['+', str = '+'],
+  ['-', str = '-'],
+  ['*', str = '*'],
+  ['/', str = '/'],
+  ['=', str = '='],
+]);
 
-const BUSINESS_ENTITY_STATUSES = [
-  {
-    title: 'Not Validated',
-    validated: 'not_validated'
-  },
-  {
-    title: 'Valid',
-    validated: 'validated'
-  },
-  {
-    title: 'Validation Failed KYC',
-    validated: 'validation_failed_kyc'
-  },
-  {
-    title: 'Validation Failed OFAC',
-    validated: 'validation_failed_ofac'
-  },
-  {
-    title: 'Validation Failed Credit',
-    validated: 'validation_failed_credit'
-  },
-  {
-    title: 'Validation Failed KYC Credit',
-    validated: 'validation_failed_kyc_credit'
-  }
-];
+let values1 = 0;
+let values2 = 0;
+let string = '';
 
-const PAYMENT_PLANS = [
-  {
-    id: 'gdh5h5151515h2t',
-    planName: 'Standart',
-  },
-  {
-    id: '5f515v1515f6',
-    planName: 'Low'
-  },
-  {
-    id: '5f515v1515f5',
-    planName: 'Max'
-  }
-]
+const render = result => {
+  const container = document.createElement('div');
+  const resultP = document.createElement('p');
+  const btn_remove =  document.createElement('button');
 
-const businessEntities = [
-  {
-    city: "Edmonton",
-    createdAt: "2022-03-28T13:41:06Z",
-    id: "51se5eg15ser153515es3rg",
-    merchantId: "",
-    name: "Alex Inc",
-    planId: "gdh5h5151515h2t",
-    state: "US-AK",
-    status: "not_validated",
-  },
-  {
-    city: "Camptown",
-    createdAt: "2022-03-28T13:41:06Z",
-    id: "srt3b881srt618618srt618t",
-    merchantId: "",
-    name: "Alex Inc 2",
-    planId: "gdh5h5151515h2t",
-    state: "US-AK",
-    status: "validated",
-  },
-  {
-    city: "Chicago",
-    createdAt: "2022-03-28T13:41:06Z",
-    id: "srth351srth15trh13",
-    merchantId: "",
-    name: "Mego Inc",
-    planId: "5f515v1515f6",
-    state: "US-AK",
-    status: "validation_failed_ofac",
-  },
-  {
-    city: "California",
-    cratedAt: "2022-03-28T13:41:06Z",
-    id: "srth7htsr1trsh424212strh",
-    merchantId: "",
-    name: "Nick Inc",
-    planId: "5f515v1515f5",
-    state: "US-AK",
-    status: "validated",
-  },
-]
+  resultOperations.append(container);
+  container.append(resultP, btn_remove);
 
-let getInformation = '';
-let selector = [];
-let usersId = [];
-let empty = [];
-let renderTodos = [];
+  resultP.innerHTML = input.value + '=' + result;
 
-const findValidated = () => {
-  const someItem = BUSINESS_ENTITY_STATUSES.filter(item => item.validated ===  getInformation);
-  const dateItem = Object.entries(someItem).map(([key, value]) => value.validated).join('');
-  
-  findUser(dateItem);
+  btn_remove.onclick = () => container.remove();
 };
 
-function findUser (dateItem) {
-  const dateUser = businessEntities.filter(item => item.status === dateItem);
-  usersId = Object.entries(dateUser).map(([key, value]) => value.planId);
-  selector = dateUser;
-  console.log(dateUser);
+const count = math => {
+  let some = math.split(string);
+  let result = 0;
+
+  values1 = +some[0];
+  values2= +(some[1]);
+
+  const operations = new Map([
+    ['+', values1 + values2],
+    ['-', values1 - values2],
+    ['*', values1 * values2],
+    ['/', values1 / values2],
+  ]);
+  result = operations.get(string);
+
+  render(result);
 };
 
-function fundPayment () {
-  usersId.forEach(itemId => {
-    PAYMENT_PLANS.forEach((item, i) => (item.id === itemId) ? empty.push(item) : []);
-  });
- 
-};
+const mathSignGetStr = () => {
+  let math = input.value;
 
-function joinArrayTogether () {
-  empty.forEach((element, index) => {
-    const joinArray = selector.map((item, i) => ({...item, ...empty[i]}));
-    renderTodos = joinArray;
-    console.log(renderTodos, 'renderTodos');
-  });
-
-};
-
-function render () {
-
-  renderTodos.forEach(item => {
-    console.log(item);
-    let tr = document.createElement('tr')
-    let nameUser = document.createElement('td');
-    let location = document.createElement('td');
-    let id = document.createElement('td');
-    let status = document.createElement('td');
-    let planName = document.createElement('td');
-  
-    toDosTable.append(tr);
-    tr.append(nameUser, location, id, status, planName);
-   
-    nameUser.innerHTML= item.name;
-    location.innerHTML = item.city;
-    id.innerHTML = item.id;
-    status.innerHTML = item.status;
-    planName.innerHTML = item.planName;
-    
-   
-  });
-};
-
-list.forEach(list => {
-  list.onclick = event => {
-    getInformation = event.target.textContent
-    renderTodos = [];
-    empty = [];
-    findUser();
-    findValidated();
-    fundPayment();
-    joinArrayTogether();
-    render();
+  for (let i = 0; i < math.length; i++) {
+    (sign.get(math[i]) !== undefined) ? string = math[i] : null;
   };
-});
+  count(math);
+};
+
+const blockInput = () => {
+  let inputStr = input.value.split('');
+
+  inputStr.forEach(item => {
+    (inputStr.lastIndexOf( sign.get(item)) === inputStr.length-1) ?
+      btn.setAttribute('disabled', true) :
+      btn.removeAttribute('disabled');
+  });
+};
+
+input.oninput = () => blockInput();
+
+btn.onclick = () => {
+  mathSignGetStr();
+  input.value = '';
+}
