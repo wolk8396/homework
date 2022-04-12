@@ -9,8 +9,6 @@ const sign = new Map([
   ['=', str = '='],
 ]);
 
-let values1 = 0;
-let values2 = 0;
 let string = '';
 
 const render = result => {
