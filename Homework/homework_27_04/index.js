@@ -9,7 +9,6 @@ const years = new Map ([
 ]);
 
 class Users {
-
   constructor(name, surname ,sex) {
     this.name = name;
     this.surname = surname;
@@ -27,7 +26,6 @@ class Users {
 };
 
 class Students extends Users {
-
   constructor(name, surname, sex, admission) {
     super(name, surname, sex);
     this.admission = admission;
@@ -60,3 +58,45 @@ mattew.getCourse(year);
 rachel.getPronouns();
 rachel.getCourse(year);
 
+//////////////////////////////////////////////////////////////////////
+
+const user = {
+  firstName:'empty',
+  surname:'empty',
+  salary:'0',
+  job: {
+    company:'empty',
+    position: 'vacant',
+  },
+
+  getFullName() {
+    console.log(`${this.firstName} ${this.surname}`);
+  },
+
+  getFullJob() {
+    console.log(`job ${this.job.company}: ${this.job.position}`);
+  },
+
+  getBySalary() {
+    console.log(`Salary: ${this.salary} $`);
+  },
+};
+
+const addNewUsers = {
+  firstName:'Jack',
+  surname:'Shapord',
+  salary:'25000',
+  job: {
+    company: 'NetFlix',
+    position: 'Manager, Production Finance',
+  },
+}
+
+const addUser = user.getFullName.bind(addNewUsers);
+addUser();
+
+const addUserJob = user.getFullJob.bind(addNewUsers);
+addUserJob();
+
+const salaryUser = user.getBySalary.bind(addNewUsers);
+salaryUser();
